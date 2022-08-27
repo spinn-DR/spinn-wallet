@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="spinn.js"></script>
+<script src="qrcode.js"></script>
+<style>
+html,body{
+	font-family: "Arial", "sans-serif"
+}
+#share{
+        color: green;
+        font-size: 28px;
+        font-weight: bold;
+    }
+#keep{
+	color: red;
+	font-size: 28px;
+	font-weight: bold;
+}
+h1{
+	position: relative;
+	margin: auto;
+	text-align: center;
+}
+button{
+	padding: 10px;
+	background-color: #467fd0;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 7px;
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+<h1>Spinn Paper Wallet</h1>
+
+<button onclick="return createNew();">Generate New Spinn Address</button>
+<!-- QR Code Output -->
+<table width="100%">
+<tr>
+	<td width="50%"><span id="share">OK TO SHARE</span></td>
+	<td align="right"><span id="keep">KEEP PRIVATE</span></td>
+</tr>
+<tr>
+	<td>
+		<div id="qrcode"></div>
+		<div id="saddr"></div>
+	</td>
+	<td align="right">
+		<div id="qrcodepk"></div>
+		<div id="spk"></div>
+	</td>
+</tr>
+</table>
+<script>
+function createNew(){
+	let a = spinn.createP2PKH()
+	let b = spinn.convert2Spin(a.addr,"spinn")
+	
+	document.getElementById("saddr").innerHTML = "";
+	document.getElementById("spk").innerHTML = "";
+	
+	document.getElementById("qrcode").innerHTML = "";
+	new QRCode(document.getElementById("qrcode"), b);
+	
+	document.getElementById("qrcodepk").innerHTML = "";
+	new QRCode(document.getElementById("qrcodepk"), a.pk);
+	
+	document.getElementById("saddr").innerHTML = b;
+	document.getElementById("spk").innerHTML = a.pk;
+	
+	
+	
+}
+</script>
+</body>
+</html>
